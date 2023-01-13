@@ -1,17 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+/*
+ * @Author: yer
+ * @Date: 2022-10-17 20:21:37
+ * @LastEditors: yer
+ * @LastEditTime: 2022-12-04 15:43:51
+ * @FilePath: /react-test/src/index.js
+ * @Description:
+ *
+ * Copyright (c) 2022 by yer yerb993@gmail.com, All Rights Reserved.
+ */
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import App from "./App";
+import ErrorBoundary from "./components/error-boundary";
+
+import "antd/dist/reset.css";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  <ErrorBoundary>
     <App />
-  </React.StrictMode>
+  </ErrorBoundary>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

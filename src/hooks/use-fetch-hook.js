@@ -2,41 +2,74 @@
  * @Author: yer
  * @Date: 2023-01-13 15:32:45
  * @LastEditors: yer
- * @LastEditTime: 2023-01-13 15:40:37
+ * @LastEditTime: 2023-01-13 16:06:53
  * @FilePath: /react-test/src/hooks/use-fetch-hook.js
  * @Description:
  *
  * Copyright (c) 2023 by yer yerb993@gmail.com, All Rights Reserved.
  */
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
+
+const dataFetchReducer = (state, action) => {
+  switch (action.type) {
+    case "FETCH_INIT":
+      return { ...state, isLoading: true, isError: false };
+    case "FETCH_SUCCESS":
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        data: action.payload,
+      };
+    case "FETCH_FAILED":
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+    default:
+      throw new Error();
+  }
+};
 
 const useFetchHook = (initialUrl, initialData) => {
-  const [data, setData] = useState(initialData);
+  const [state, dispatch] = useReducer(dataFetchReducer, {
+    isLoading: false,
+    isError: false,
+    data: initialData,
+  });
   const [url, setUrl] = useState(initialUrl);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
   const isFirst = useRef(true);
 
   useEffect(() => {
+    // 组件被卸载后不需要更新
+    let didCancel = false;
+    // 第一次不加载
     if (isFirst.current) {
       isFirst.current = false;
       return;
     }
     async function fetchData() {
-      setIsLoading(true);
-      setIsError(false);
+      dispatch({ type: "FETCH_INIT" });
       try {
         const result = await axios(url);
-        setData(result.data);
+        if (didCancel) {
+          dispatch({ type: "FETCH_SUCCESS", payload: result.data });
+        }
       } catch (e) {
-        setIsError(true);
+        if (!didCancel) {
+          dispatch({ type: "FETCH_FAILED" });
+        }
       }
-      setIsLoading(false);
     }
     fetchData();
+    return () => {
+      didCancel = true;
+    };
   }, [url]);
-  return [{ data, isLoading, isError }, setUrl];
+
+  return [state, setUrl];
 };
 
 export default useFetchHook;

@@ -2,7 +2,7 @@
  * @Author: yer
  * @Date: 2022-10-17 20:21:37
  * @LastEditors: yer
- * @LastEditTime: 2023-01-12 14:05:19
+ * @LastEditTime: 2023-01-13 16:26:11
  * @FilePath: /react-test/src/App.js
  * @Description:
  *
@@ -79,7 +79,9 @@ function App() {
       {/* <Test /> */}
 
       {/* 3. data fetch */}
-      <DataFetchHook />
+      {/* <DataFetchHook /> */}
+
+      {/* 4. 异常捕获 */}
     </div>
   );
 }

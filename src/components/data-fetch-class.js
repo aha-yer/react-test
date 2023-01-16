@@ -2,7 +2,7 @@
  * @Author: yer
  * @Date: 2023-01-12 14:01:55
  * @LastEditors: yer
- * @LastEditTime: 2023-01-12 14:02:16
+ * @LastEditTime: 2023-01-13 16:23:18
  * @FilePath: /react-test/src/components/data-fetch-class.js
  * @Description:
  *
